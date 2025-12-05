@@ -9,8 +9,6 @@ WiMon (**Wi**ndows **Mon**itor) es una herramienta escrita en **Go** que muestra
 ---
 
 
-<img width="1117" height="785" alt="{A9802DD2-3342-41CD-8B40-2528B56D2B98}" src="https://github.com/user-attachments/assets/7850bec0-c25a-4144-a00f-148a448faba5" />
-
 
 
 ## ✨ Características principales
