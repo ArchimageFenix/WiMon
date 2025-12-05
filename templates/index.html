@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{ .Title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #02130a;
+      --bg-card: #031a0e;
+      --bg-card-soft: #052316;
+      --accent: #a3e635;                /* verde limón brillante */
+      --accent-soft: rgba(190, 242, 100, 0.16);
+      --accent-strong: #bef264;         /* amarillo/limón suave */
+      --text-main: #f9fafb;
+      --text-soft: #a3b38f;
+      --border-soft: rgba(163, 230, 53, 0.35);
+      --danger: #f97373;
+      --warning: #facc15;
+      --muted: #6b7280;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.9);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #052e16, #020617 55%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+
+    .shell {
+      max-width: 1120px;
+      width: 100%;
+      padding: 24px 16px 40px;
+    }
+
+    .glass {
+      background: radial-gradient(circle at top left, rgba(190, 242, 100, 0.16), transparent 55%),
+                  radial-gradient(circle at top right, rgba(74, 222, 128, 0.18), transparent 55%),
+                  linear-gradient(145deg, rgba(7, 26, 17, 0.96), rgba(5, 20, 13, 0.98));
+      border-radius: 32px;
+      box-shadow: var(--shadow-soft);
+      padding: 20px 22px 26px;
+      border: 1px solid var(--border-soft);
+      backdrop-filter: blur(26px);
+    }
+
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 30% 0, var(--accent), transparent 55%),
+                  radial-gradient(circle at 70% 100%, #22c55e, transparent 55%),
+                  #02130a;
+      border: 1px solid rgba(190, 242, 100, 0.7);
+      box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(190, 242, 100, 0.4);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: #052e16;
+    }
+
+    .brand-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand-title span {
+      font-weight: 700;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--text-soft);
+    }
+
+    .pill {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(7, 26, 17, 0.9);
+      border: 1px solid rgba(163, 230, 53, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent-strong);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(190, 242, 100, 0.9);
+    }
+
+    .status-text {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .btn-soft {
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 0.78rem;
+      border: 1px solid rgba(190, 242, 100, 0.7);
+      background: radial-gradient(circle at top, rgba(190, 242, 100, 0.16), rgba(7, 26, 17, 0.95));
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.14s ease-out;
+    }
+
+    .btn-soft:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 18px rgba(190, 242, 100, 0.55);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 2.3fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .glass {
+        padding: 16px 14px 22px;
+      }
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at top left, rgba(3, 22, 11, 0.98), rgba(3, 18, 10, 1));
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 12px 12px 10px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-title span.icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, var(--accent), transparent 65%),
+                  rgba(7, 26, 17, 0.9);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      box-shadow: 0 0 14px rgba(190, 242, 100, 0.6);
+      color: #052e16;
+    }
+
+    .card-sub {
+      font-size: 0.72rem;
+      color: var(--text-soft);
+    }
+
+    .badge-soft {
+      font-size: 0.7rem;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(190, 242, 100, 0.8);
+      color: var(--accent-strong);
+    }
+
+    .table-wrapper {
+      margin-top: 6px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      background: radial-gradient(circle at top, rgba(3, 22, 11, 1), rgba(3, 22, 11, 0.96));
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+    }
+
+    thead {
+      background: radial-gradient(circle at top, rgba(7, 26, 17, 0.95), rgba(7, 26, 17, 0.98));
+      border-bottom: 1px solid rgba(55, 65, 81, 0.9);
+    }
+
+    th, td {
+      padding: 7px 10px;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      font-weight: 500;
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
+    tbody tr {
+      transition: background 0.12s ease-out;
+    }
+
+    tbody tr:nth-child(even) {
+      background: rgba(7, 26, 17, 0.9);
+    }
+
+    tbody tr:nth-child(odd) {
+      background: rgba(7, 26, 17, 0.98);
+    }
+
+    tbody tr:hover {
+      background: radial-gradient(circle at left, rgba(190, 242, 100, 0.16), rgba(7, 26, 17, 0.98));
+    }
+
+    td.ip {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.74rem;
+      color: var(--text-soft);
+    }
+
+    .pill-country {
+      padding: 1px 8px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      border: 1px solid rgba(190, 242, 100, 0.7);
+      background: rgba(7, 26, 17, 0.9);
+      color: var(--accent-strong);
+    }
+
+    .pill-proto {
+      padding: 1px 8px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(7, 26, 17, 0.9);
+      color: var(--text-soft);
+    }
+
+    .pill-proto.tcp {
+      border-color: rgba(251, 146, 60, 0.9);
+      background: rgba(251, 146, 60, 0.14);
+      color: #fed7aa;
+    }
+
+    .pill-proto.udp {
+      border-color: rgba(56, 189, 248, 0.9);
+      background: rgba(56, 189, 248, 0.14);
+      color: #7dd3fc;
+    }
+
+    .time-text {
+      font-size: 0.74rem;
+      color: var(--text-soft);
+      text-align: right;
+    }
+
+    .side {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .metric {
+      border-radius: var(--radius-md);
+      padding: 8px 9px 7px;
+      background: rgba(3, 22, 11, 0.96);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+    }
+
+    .metric-label {
+      font-size: 0.7rem;
+      color: var(--text-soft);
+      margin-bottom: 2px;
+    }
+
+    .metric-value {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .metric-trend {
+      font-size: 0.68rem;
+      margin-top: 3px;
+      color: var(--muted);
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .chip {
+      font-size: 0.68rem;
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px dashed rgba(163, 230, 53, 0.6);
+      color: var(--text-soft);
+      background: rgba(7, 26, 17, 0.95);
+    }
+
+    .footer {
+      margin-top: 8px;
+      font-size: 0.7rem;
+      color: var(--text-soft);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+    }
+
+    @media (max-width: 600px) {
+      .footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="glass">
+      <header class="header">
+        <div class="brand">
+          <div class="logo">Wi</div>
+          <div class="brand-main">
+            <div class="brand-title">
+              <span>WiMon</span>
+              <span class="pill">Windows Lemon Monitor</span>
+            </div>
+            <div class="brand-sub">
+              Conexiones salientes de Windows, con sabor a limón 🍋
+            </div>
+          </div>
+        </div>
+        <div class="header-right">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <div class="status-dot" id="status-dot"></div>
+            <div class="status-text" id="status-text">Conectando API...</div>
+          </div>
+          <button class="btn-soft" id="refresh-btn">
+            ↻ Actualizar ahora
+          </button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">
+                <span class="icon">◎</span>
+                Conexiones salientes
+              </div>
+              <div class="card-sub">
+                IP remota, país, rango, ASN y tiempo conectado.
+              </div>
+            </div>
+            <span class="badge-soft" id="badge-count">0 conexiones</span>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>IP remota</th>
+                  <th>País</th>
+                  <th>Rango</th>
+                  <th>ASN</th>
+                  <th>Protocolo</th>
+                  <th style="text-align:right;">Conectada desde</th>
+                  <th style="text-align:right;">Duración</th>
+                </tr>
+              </thead>
+              <tbody id="conn-body">
+                <!-- Filas generadas por JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <aside class="side">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">
+                  <span class="icon">▣</span>
+                  Resumen WiMon
+                </div>
+                <div class="card-sub">Snapshot rápido de tu tráfico saliente.</div>
+              </div>
+            </div>
+            <div class="metrics-grid">
+              <div class="metric">
+                <div class="metric-label">Conexiones activas</div>
+                <div class="metric-value" id="metric-total">0</div>
+                <div class="metric-trend" id="metric-total-trend">Esperando datos...</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Países únicos</div>
+                <div class="metric-value" id="metric-countries">0</div>
+                <div class="metric-trend" id="metric-countries-trend">–</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">ASN más frecuente</div>
+                <div class="metric-value" id="metric-top-asn">–</div>
+                <div class="metric-trend">Proveedor dominante</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Actualizado</div>
+                <div class="metric-value" id="metric-last">–</div>
+                <div class="metric-trend">Hora local de WiMon</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">
+                  <span class="icon">⚡</span>
+                  Perfil técnico
+                </div>
+                <div class="card-sub">Single binary · Go · Dashboard HTML.</div>
+              </div>
+            </div>
+            <div class="chip-row">
+              <div class="chip">Go backend</div>
+              <div class="chip">HTML + JS</div>
+              <div class="chip">/api/connections</div>
+              <div class="chip">Windows focus</div>
+              <div class="chip">Lemon theme 🍋</div>
+            </div>
+          </div>
+        </aside>
+      </main>
+
+      <footer class="footer">
+        <div>WiMon corre localmente · No envía datos a la nube.</div>
+        <div id="footer-tag">Sincronizando...</div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const connBody = document.getElementById("conn-body");
+    const statusText = document.getElementById("status-text");
+    const statusDot = document.getElementById("status-dot");
+    const badgeCount = document.getElementById("badge-count");
+    const metricTotal = document.getElementById("metric-total");
+    const metricTotalTrend = document.getElementById("metric-total-trend");
+    const metricCountries = document.getElementById("metric-countries");
+    const metricCountriesTrend = document.getElementById("metric-countries-trend");
+    const metricTopAsn = document.getElementById("metric-top-asn");
+    const metricLast = document.getElementById("metric-last");
+    const footerTag = document.getElementById("footer-tag");
+    const refreshBtn = document.getElementById("refresh-btn");
+
+    let lastTotal = 0;
+
+    async function fetchConnections() {
+      try {
+        statusText.textContent = "Consultando WiMon API…";
+        const res = await fetch("/api/connections");
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+
+        renderTable(data);
+        renderMetrics(data);
+
+        statusText.textContent = "Conectado a WiMon · API OK";
+        statusDot.style.background = "var(--accent)";
+        footerTag.textContent = "Datos generados localmente · " + new Date().toLocaleTimeString();
+      } catch (err) {
+        console.error(err);
+        statusText.textContent = "Error conectando a la API";
+        statusDot.style.background = "#f97373";
+      }
+    }
+
+    function renderTable(data) {
+      connBody.innerHTML = "";
+
+      data.forEach((c) => {
+        const tr = document.createElement("tr");
+
+        const tdIP = document.createElement("td");
+        tdIP.className = "ip";
+        tdIP.textContent = c.remote_ip;
+
+        const tdCountry = document.createElement("td");
+        const spanCountry = document.createElement("span");
+        spanCountry.className = "pill-country";
+        spanCountry.textContent = c.country || "–";
+        tdCountry.appendChild(spanCountry);
+
+        const tdRange = document.createElement("td");
+        tdRange.textContent = c.range || "–";
+
+        const tdASN = document.createElement("td");
+        tdASN.textContent = c.asn || "–";
+
+        const tdProto = document.createElement("td");
+        const spanProto = document.createElement("span");
+        const protoClass = (c.protocol || "").toUpperCase() === "UDP" ? "udp" : "tcp";
+        spanProto.className = "pill-proto " + protoClass;
+        spanProto.textContent = (c.protocol || "").toUpperCase() || "TCP";
+        tdProto.appendChild(spanProto);
+
+        const tdSince = document.createElement("td");
+        tdSince.className = "time-text";
+        tdSince.textContent = c.display_since || "–";
+
+        const tdDuration = document.createElement("td");
+        tdDuration.className = "time-text";
+        tdDuration.textContent = c.display_duration || formatDuration(c.duration_secs);
+
+        tr.appendChild(tdIP);
+        tr.appendChild(tdCountry);
+        tr.appendChild(tdRange);
+        tr.appendChild(tdASN);
+        tr.appendChild(tdProto);
+        tr.appendChild(tdSince);
+        tr.appendChild(tdDuration);
+
+        connBody.appendChild(tr);
+      });
+
+      badgeCount.textContent = data.length + " conexiones";
+    }
+
+    function formatDuration(seconds) {
+      if (!seconds && seconds !== 0) return "–";
+      const s = Math.floor(seconds);
+      if (s < 60) return s + "s";
+      const m = Math.floor(s / 60);
+      const rest = s % 60;
+      if (m < 60) {
+        return m + "m " + (rest ? rest + "s" : "");
+      }
+      const h = Math.floor(m / 60);
+      const mRest = m % 60;
+      return h + "h " + (mRest ? mRest + "m" : "");
+    }
+
+    function renderMetrics(data) {
+      const total = data.length;
+      metricTotal.textContent = total.toString();
+
+      if (total > lastTotal) {
+        metricTotalTrend.textContent = "+" + (total - lastTotal) + " nuevas";
+      } else if (total < lastTotal) {
+        metricTotalTrend.textContent = (total - lastTotal) + " menos";
+      } else {
+        metricTotalTrend.textContent = "Sin cambios recientes";
+      }
+      lastTotal = total;
+
+      const countrySet = new Set();
+      const asnFreq = {};
+
+      data.forEach((c) => {
+        if (c.country) countrySet.add(c.country);
+        if (c.asn) {
+          asnFreq[c.asn] = (asnFreq[c.asn] || 0) + 1;
+        }
+      });
+
+      const countriesCount = countrySet.size;
+      metricCountries.textContent = countriesCount.toString();
+      metricCountriesTrend.textContent =
+        countriesCount > 0 ? "Distribución por país activa" : "Esperando conexiones";
+
+      let topAsn = "–";
+      let bestCount = 0;
+      for (const asn in asnFreq) {
+        if (asnFreq[asn] > bestCount) {
+          bestCount = asnFreq[asn];
+          topAsn = asn;
+        }
+      }
+      metricTopAsn.textContent = topAsn;
+
+      metricLast.textContent = new Date().toLocaleTimeString();
+    }
+
+    refreshBtn.addEventListener("click", () => {
+      fetchConnections();
+    });
+
+    fetchConnections();
+    setInterval(fetchConnections, 5000);
+  </script>
+</body>
+</html>
