@@ -1,4 +1,4 @@
-# 🍋 WiMon – Windows Lemon Monitor
+<img width="1117" height="785" alt="{A9802DD2-3342-41CD-8B40-2528B56D2B98}" src="https://github.com/user-attachments/assets/a22856e3-3426-4b96-843c-d1ee62f5bd09" /># 🍋 WiMon – Windows Lemon Monitor
 
 WiMon (**Wi**ndows **Mon**itor) es una herramienta escrita en **Go** que muestra las **conexiones TCP salientes en estado ESTABLISHED** de un equipo Windows, a través de un **dashboard web moderno** servido desde un único ejecutable.
 
@@ -7,6 +7,11 @@ WiMon (**Wi**ndows **Mon**itor) es una herramienta escrita en **Go** que muestra
 > Sin instalar servidores o frameworks extra.
 
 ---
+
+
+<img width="1117" height="785" alt="{A9802DD2-3342-41CD-8B40-2528B56D2B98}" src="https://github.com/user-attachments/assets/7850bec0-c25a-4144-a00f-148a448faba5" />
+
+
 
 ## ✨ Características principales
 
